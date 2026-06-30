@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>강윤아 포트폴리오 | 공연기획·이벤트 운영</title>
 <style>
   @font-face {
@@ -361,6 +362,35 @@ body {
 }
 .badge-1st .lbl { font-size: 11px; opacity: 0.85; margin-top:4px; display:block; }
 
+
+
+/* ===== PROJECT CONTRIBUTION ===== */
+.proj-contribution {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--lavender-light), var(--pink-light));
+  border: 1px solid rgba(180,170,220,0.38);
+  color: var(--purple-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15px;
+}
+.proj-contribution::before {
+  content: '●';
+  color: var(--pink-mid);
+  font-size: 8px;
+}
+.contribution-note {
+  margin: -24px 0 34px;
+  font-size: 11px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
 /* ===== CREATIVE WORK ===== */
 .creative-intro {
   font-size: 14px; color: var(--text-mid); line-height:1.8;
@@ -552,6 +582,9 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
+  .creative-grid.output-grid-balanced {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   /* 삼성생명 캠페인 카드: 로고와 쇼츠 미디어 영역을 같은 크기로 통일 */
   .style-campaign-media {
     width: 100%;
@@ -598,7 +631,8 @@ body {
     .creative-grid.three-col { grid-template-columns: 1fr 1fr; }
   }
   @media(max-width:600px) {
-    .creative-grid.three-col { grid-template-columns: 1fr; }
+    .creative-grid.three-col,
+    .creative-grid.output-grid-balanced { grid-template-columns: 1fr; }
   }
 
 
@@ -780,832 +814,940 @@ body {
     display: block;
   }
 
+
+
+/* ===== CREATIVE CARD UNIFORM SIZE & LIGHTBOX ===== */
+/* 기타 산출물도 위의 포스터 카드와 동일한 3열 폭을 사용 */
+.creative-grid.output-grid-balanced {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.creative-grid.three-col .creative-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  cursor: zoom-in;
+  outline: none;
+}
+.creative-grid.three-col .creative-body {
+  flex: 1;
+}
+.creative-card::after {
+  content: '＋ 크게 보기';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(43, 34, 83, 0.78);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .2px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+.creative-card:hover::after,
+.creative-card:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+.creative-card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(138, 111, 196, .28), var(--shadow);
+}
+
+.creative-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 78px;
+  background: rgba(18, 14, 35, .92);
+  backdrop-filter: blur(8px);
+}
+.creative-lightbox.is-open { display: flex; }
+.creative-lightbox-figure {
+  width: min(1120px, 92vw);
+  max-height: 90vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.creative-lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 22px 70px rgba(0,0,0,.38);
+}
+.creative-lightbox-caption {
+  color: rgba(255,255,255,.9);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+.creative-lightbox-counter {
+  display: inline-block;
+  margin-left: 8px;
+  color: rgba(255,255,255,.58);
+  font-size: 11px;
+}
+.creative-lightbox-close,
+.creative-lightbox-nav {
+  position: fixed;
+  border: 0;
+  color: #fff;
+  background: rgba(255,255,255,.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease, transform .2s ease;
+}
+.creative-lightbox-close:hover,
+.creative-lightbox-nav:hover { background: rgba(255,255,255,.22); }
+.creative-lightbox-close {
+  top: 22px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+}
+.creative-lightbox-nav {
+  top: 50%;
+  width: 48px;
+  height: 58px;
+  border-radius: 14px;
+  transform: translateY(-50%);
+  font-size: 32px;
+}
+.creative-lightbox-nav:hover { transform: translateY(-50%) scale(1.04); }
+.creative-lightbox-prev { left: 20px; }
+.creative-lightbox-next { right: 20px; }
+.creative-lightbox-nav[hidden] { display: none; }
+
+@media(max-width:900px) {
+  .creative-grid.output-grid-balanced {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .creative-lightbox { padding: 26px 56px; }
+}
+@media(max-width:600px) {
+  .creative-grid.output-grid-balanced { grid-template-columns: 1fr; }
+  .creative-card::after { opacity: 1; transform: none; }
+  .creative-lightbox { padding: 72px 14px 24px; }
+  .creative-lightbox-image { max-height: 70vh; }
+  .creative-lightbox-nav {
+    top: auto;
+    bottom: 18px;
+    width: 46px;
+    height: 46px;
+    transform: none;
+  }
+  .creative-lightbox-nav:hover { transform: scale(1.04); }
+  .creative-lightbox-prev { left: calc(50% - 56px); }
+  .creative-lightbox-next { right: calc(50% - 56px); }
+}
+
 </style>
 </head>
 <body>
-
 <!-- SIDEBAR -->
 <nav class="sidebar">
-  <div class="sidebar-logo">Kang Yoon Ah</div>
-  <div class="sidebar-sub">Portfolio 2025–2026</div>
-  <div class="sidebar-nav">
-    <a href="#hero" class="active">✦ Intro</a>
-    <a href="#profile">01 Profile</a>
-    <a href="#competency">02 Core Competency</a>
-    <a href="#projects">03 Key Projects</a>
-    <a href="#creative">04 Creative Work</a>
-    <a href="#scenes">05 Field Scenes</a>
-    <a href="#others">06 Other Projects</a>
-    <a href="#vision">07 Vision</a>
-  </div>
-  <div class="sidebar-contact">
-    <a href="mailto:dbsdk710306@naver.com">dbsdk710306@naver.com</a><br>
+<div class="sidebar-logo">Kang Yoon Ah</div>
+<div class="sidebar-sub">Portfolio 2025–2026</div>
+<div class="sidebar-nav">
+<a class="active" href="#hero">✦ Intro</a>
+<a href="#profile">01 Profile</a>
+<a href="#competency">02 Core Competency</a>
+<a href="#projects">03 Key Projects</a>
+<a href="#creative">04 Creative Work</a>
+<a href="#scenes">05 Field Scenes</a>
+<a href="#others">06 Other Projects</a>
+<a href="#vision">07 Vision</a>
+</div>
+<div class="sidebar-contact">
+<a href="mailto:dbsdk710306@naver.com">dbsdk710306@naver.com</a><br/>
     010.8748.9934
   </div>
 </nav>
-
 <main class="main">
-
 <!-- HERO -->
-<section id="hero" class="hero">
-  <div class="hero-eyebrow">공연기획 · 이벤트 운영 · 크리에이티브 디렉션</div>
-  <div class="hero-name">Kang<br><span class="pink">Yoon Ah</span></div>
-  <div class="hero-tagline">기획부터 현장까지,<br>관객의 감동을 설계하는 실행형 기획자입니다.</div>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-num">18<span class="unit">+</span></div>
-      <div class="hero-stat-label">2025–2026 수행 프로젝트</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">1,000<span class="unit">+</span></div>
-      <div class="hero-stat-label">단일 공연 최대 동원</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">1<span class="unit">st</span></div>
-      <div class="hero-stat-label">제안서 낙찰 순위</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">80<span class="unit">%+</span></div>
-      <div class="hero-stat-label">관객 최상위 만족도</div>
-    </div>
-  </div>
+<section class="hero" id="hero">
+<div class="hero-eyebrow">공연기획 · 이벤트 운영 · 크리에이티브 디렉션</div>
+<div class="hero-name">Kang<br/><span class="pink">Yoon Ah</span></div>
+<div class="hero-tagline">기획부터 현장까지,<br/>관객의 감동을 설계하는 실행형 기획자입니다.</div>
+<div class="hero-stats">
+<div class="hero-stat">
+<div class="hero-stat-num">18<span class="unit">+</span></div>
+<div class="hero-stat-label">2025–2026 수행 프로젝트</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">1,000<span class="unit">+</span></div>
+<div class="hero-stat-label">단일 공연 최대 동원</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">1<span class="unit">st</span></div>
+<div class="hero-stat-label">제안서 낙찰 순위</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">80<span class="unit">%+</span></div>
+<div class="hero-stat-label">관객 최상위 만족도</div>
+</div>
+</div>
 </section>
-
 <!-- PROFILE -->
-<section id="profile" class="section">
-  <div class="sec-label">01 · Profile</div>
-  <div class="sec-title">강윤아 / KANG YOON AH</div>
-  <div class="sec-sub">현장 이해를 기반으로 관객 경험을 설계하는 공연기획·이벤트 운영 전문가입니다.</div>
-  <div class="profile-grid">
-    <div class="profile-photo-wrap">
-      <img class="profile-photo" src="assets/image-008-5a3434a620b4.jpg" alt="강윤아 프로필 사진">
-      <div class="profile-photo-info">
-        <div class="profile-photo-name">Kang Yoon Ah</div>
-        <div class="profile-photo-name-kr">강 윤 아</div>
-        <div class="profile-photo-tags">
-          <span class="profile-photo-tag">공연기획</span>
-          <span class="profile-photo-tag">이벤트 운영</span>
-          <span class="profile-photo-tag">크리에이티브 디렉션</span>
-          <span class="profile-photo-tag">디자인</span>
-        </div>
-      </div>
-    </div>
-    <div class="profile-card">
-      <div class="pcard-label">About Me</div>
-      <div class="pcard-value">
-        강윤아 / KANG YOON AH<br>
-        2000. 07. 16<br>
-        서울시 광진구 아차산로 16-5<br>
-        010.8748.9934<br>
+<section class="section" id="profile">
+<div class="sec-label">01 · Profile</div>
+<div class="sec-title">강윤아 / KANG YOON AH</div>
+<div class="sec-sub">현장 이해를 기반으로 관객 경험을 설계하는 공연기획·이벤트 운영 전문가입니다.</div>
+<div class="profile-grid">
+<div class="profile-photo-wrap">
+<img alt="강윤아 프로필 사진" class="profile-photo" src="assets/image-008-5a3434a620b4.jpg"/>
+<div class="profile-photo-info">
+<div class="profile-photo-name">Kang Yoon Ah</div>
+<div class="profile-photo-name-kr">강 윤 아</div>
+<div class="profile-photo-tags">
+<span class="profile-photo-tag">공연기획</span>
+<span class="profile-photo-tag">이벤트 운영</span>
+<span class="profile-photo-tag">크리에이티브 디렉션</span>
+<span class="profile-photo-tag">디자인</span>
+</div>
+</div>
+</div>
+<div class="profile-card">
+<div class="pcard-label">About Me</div>
+<div class="pcard-value">
+        강윤아 / KANG YOON AH<br/>
+        2000. 07. 16<br/>
+        서울시 광진구 아차산로 16-5<br/>
+        010.8748.9934<br/>
         dbsdk710306@naver.com
       </div>
-    </div>
-    <div class="profile-card">
-      <div class="pcard-label">Education</div>
-      <div class="pcard-value">
-        2018 수원 서천고등학교 졸업<br>
-        2019 동남보건대학교 작업치료과 입학<br>
+</div>
+<div class="profile-card">
+<div class="pcard-label">Education</div>
+<div class="pcard-value">
+        2018 수원 서천고등학교 졸업<br/>
+        2019 동남보건대학교 작업치료과 입학<br/>
         2021 동남보건대학교 작업치료과 졸업
       </div>
-    </div>
-    <div class="profile-card">
-      <div class="pcard-label">Work Experience</div>
-      <div class="pcard-value">
-        2022–2024.10 늘봄요양병원 작업치료사<br>
+</div>
+<div class="profile-card">
+<div class="pcard-label">Work Experience</div>
+<div class="pcard-value">
+        2022–2024.10 늘봄요양병원 작업치료사<br/>
         2025– 원트리즈뮤직 기획·수행팀 (재직 중)
       </div>
-    </div>
-    <div class="profile-card">
-      <div class="pcard-label">Certification &amp; Tools</div>
-      <div class="pcard-value">
-        <span class="skill-chip pro">GTQ Photoshop 1급</span>
-        <span class="skill-chip pro">GTQ Illustrator 1급</span>
-        <span class="skill-chip">2종 보통 운전면허</span>
-        <br><br>
-        <span class="skill-chip pro">Photoshop</span>
-        <span class="skill-chip pro">Illustrator</span>
-        <span class="skill-chip pro">Excel</span>
-        <span class="skill-chip pro">PowerPoint</span>
-        <span class="skill-chip pro">한글</span>
-        <span class="skill-chip pro">Vllo</span>
-        <span class="skill-chip pro">CapCut</span>
-      </div>
-    </div>
-  </div>
+</div>
+<div class="profile-card">
+<div class="pcard-label">Certification &amp; Tools</div>
+<div class="pcard-value">
+<span class="skill-chip pro">GTQ Photoshop 1급</span>
+<span class="skill-chip pro">GTQ Illustrator 1급</span>
+<span class="skill-chip">2종 보통 운전면허</span>
+<br/><br/>
+<span class="skill-chip pro">Photoshop</span>
+<span class="skill-chip pro">Illustrator</span>
+<span class="skill-chip pro">Excel</span>
+<span class="skill-chip pro">PowerPoint</span>
+<span class="skill-chip pro">한글</span>
+<span class="skill-chip pro">Vllo</span>
+<span class="skill-chip pro">CapCut</span>
+</div>
+</div>
+</div>
 </section>
-
 <!-- CORE COMPETENCY -->
-<section id="competency" class="section">
-  <div class="sec-label">02 · Core Competency</div>
-  <div class="sec-title">핵심 역량</div>
-  <div class="sec-sub">기획·운영·디자인 전 과정을 단독으로 수행하는 End-to-End 실행력을 보유하고 있습니다.</div>
-  <div class="comp-grid">
-    <div class="comp-card">
-      <div class="comp-icon lav">🎭</div>
-      <div class="comp-title">공연·행사 기획</div>
-      <div class="comp-desc">예산 수립부터 시나리오, 무대 구성, 타임라인 설계까지 전체 기획안을 독립적으로 작성합니다. 제안서 1등 낙찰 실적 보유.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon pink">🎤</div>
-      <div class="comp-title">아티스트 섭외 &amp; 계약</div>
-      <div class="comp-desc">30개 이상 뮤지션 직접 컨택·섭외 경험. 예산 범위 내 조건 협의부터 계약 체결까지 주도적으로 진행합니다.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon lav">📋</div>
-      <div class="comp-title">현장 운영 &amp; 위기 대응</div>
-      <div class="comp-desc">1,000명 이상 공연 현장 운영 경험. 관객 동선·안전관리 계획 수립, 공연 직전 돌발 상황 대응 다수.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon pink">🎨</div>
-      <div class="comp-title">크리에이티브 디렉션</div>
-      <div class="comp-desc">전시부스·키비주얼·홍보물·보고서 디자인 전담 수행. GTQ Photoshop·Illustrator 1급 보유. 실무 수준 단독 제작.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon lav">📊</div>
-      <div class="comp-title">제안서 &amp; 보고서 작성</div>
-      <div class="comp-desc">정성 제안서 기획·작성·디자인부터 결과보고서 단독 작성까지. 공공기관 입찰 1등 낙찰 달성.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon pink">🔁</div>
-      <div class="comp-title">프로세스 &amp; 품질 관리</div>
-      <div class="comp-desc">3중 검수 프로세스 자체 설계로 납품 오류율 0건 달성. 표준 체크리스트 도입으로 팀 공식 매뉴얼화.</div>
-    </div>
-    <div class="comp-card">
-      <div class="comp-icon lav">🤖</div>
-      <div class="comp-title">생성형 AI 활용</div>
-      <div class="comp-desc">힉스필드, Seedance, Kling 등 다양한 생성형 AI 플랫폼을 직접 활용하여 AI 쇼츠 제작, 키비주얼 이미지 생성, 홈페이지 제작 등 다양한 콘텐츠를 실무에 적용합니다.</div>
-    </div>
-  </div>
+<section class="section" id="competency">
+<div class="sec-label">02 · Core Competency</div>
+<div class="sec-title">핵심 역량</div>
+<div class="sec-sub">기획·운영·디자인 전 과정을 단독으로 수행하는 End-to-End 실행력을 보유하고 있습니다.</div>
+<div class="comp-grid">
+<div class="comp-card">
+<div class="comp-icon lav">🎭</div>
+<div class="comp-title">공연·행사 기획</div>
+<div class="comp-desc">예산 수립부터 시나리오, 무대 구성, 타임라인 설계까지 전체 기획안을 독립적으로 작성합니다. 제안서 1등 낙찰 실적 보유.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon pink">🎤</div>
+<div class="comp-title">아티스트 섭외 &amp; 계약</div>
+<div class="comp-desc">30개 이상 뮤지션 직접 컨택·섭외 경험. 예산 범위 내 조건 협의부터 계약 체결까지 주도적으로 진행합니다.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon lav">📋</div>
+<div class="comp-title">현장 운영 &amp; 위기 대응</div>
+<div class="comp-desc">1,000명 이상 공연 현장 운영 경험. 관객 동선·안전관리 계획 수립, 공연 직전 돌발 상황 대응 다수.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon pink">🎨</div>
+<div class="comp-title">크리에이티브 디렉션</div>
+<div class="comp-desc">전시부스·키비주얼·홍보물·보고서 디자인 전담 수행. GTQ Photoshop·Illustrator 1급 보유. 실무 수준 단독 제작.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon lav">📊</div>
+<div class="comp-title">제안서 &amp; 보고서 작성</div>
+<div class="comp-desc">정성 제안서 기획·작성·디자인부터 결과보고서 단독 작성까지. 공공기관 입찰 1등 낙찰 달성.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon pink">🔁</div>
+<div class="comp-title">프로세스 &amp; 품질 관리</div>
+<div class="comp-desc">3중 검수 프로세스 자체 설계로 납품 오류율 0건 달성. 표준 체크리스트 도입으로 팀 공식 매뉴얼화.</div>
+</div>
+<div class="comp-card">
+<div class="comp-icon lav">🤖</div>
+<div class="comp-title">생성형 AI 활용</div>
+<div class="comp-desc">힉스필드, Seedance, Kling 등 다양한 생성형 AI 플랫폼을 직접 활용하여 AI 쇼츠 제작, 키비주얼 이미지 생성, 홈페이지 제작 등 다양한 콘텐츠를 실무에 적용합니다.</div>
+</div>
+</div>
 </section>
-
 <!-- KEY PROJECTS -->
-<section id="projects" class="section">
-  <div class="sec-label">03 · Key Projects</div>
-  <div class="sec-title">주요 프로젝트</div>
-  <div class="sec-sub" style="margin-bottom:12px;">아래 역할 표시 기준 안내</div>
-  <div style="display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;">
-    <div class="role-chip done" style="font-size:12px;padding:7px 16px;">✓ 직접 수행한 업무</div>
-    <div class="role-chip assist" style="font-size:12px;padding:7px 16px;">보조·지원으로 참여한 업무</div>
-  </div>
-
-  <!-- PROJECT 1 : 라이징스타 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2025 · 화성시문화관광재단</div>
-      <div class="proj-title">2025 라이징스타를 찾아라</div>
-      <div class="proj-period">밴드 경연 대회 기획·운영·홍보·섭외 총괄 | 2025.05.12 ~ 12.22</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<section class="section" id="projects">
+<div class="sec-label">03 · Key Projects</div>
+<div class="sec-title">주요 프로젝트</div>
+<div class="sec-sub" style="margin-bottom:12px;">아래 역할 표시 기준 안내</div>
+<div style="display:flex;gap:12px;margin-bottom:40px;flex-wrap:wrap;">
+<div class="role-chip done" style="font-size:12px;padding:7px 16px;">✓ 직접 수행한 업무</div>
+<div class="role-chip assist" style="font-size:12px;padding:7px 16px;">보조·지원으로 참여한 업무</div>
+</div>
+<div class="contribution-note">※ 기여도는 프로젝트 전체가 아닌, 카드에 기재된 담당 업무 범위를 기준으로 산정했습니다.</div>
+<!-- PROJECT 1 : 라이징스타 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2025 · 화성시문화관광재단</div>
+<div class="proj-title">2025 라이징스타를 찾아라</div>
+<div class="proj-period">밴드 경연 대회 기획·운영·홍보·섭외 총괄 | 2025.05.12 ~ 12.22</div><div class="proj-contribution">담당 업무 기여도 70%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           화성시를 대표하는 신인 뮤지션 발굴 프로젝트. 온·오프라인 밴드 서바이벌 공모전부터 현장 경연, 관내 축제 지원까지 전 과정을 주도적으로 운영했습니다. 총 상금 1,200만 원 규모의 행사로, 공모전 사이트 18개·커뮤니티 카페 76개·대학·실용음악학원 TM 및 포스터 475건·인디밴드·동아리 DM 388건·관내 음악학원·밴드 홍보 57건 등 총 1,014건의 직접 홍보를 집행했습니다. 폭우가 내리는 야외 공연 환경에서도 관람객 1,000명 이상을 동원하고 안전하게 행사를 마무리했습니다. 홍보물, 산출물, 무대 그래픽 등 모든 디자인 기획 및 제작도 전담했습니다.
         </div>
-        <ul class="proj-list">
-          <li>공모 접수 238건 → 규격 검사 224팀 → 전문가 예선 10팀 → 현장 경연 5팀 수상, 전 심사 과정 운영 총괄</li>
-          <li>LUCY 포함 30개 이상 뮤지션 직접 컨택 및 섭외 완료 (예산 범위 내 조건 협의·계약 체결)</li>
-          <li>팔찌 티켓 기반 관객 관리 시스템 신규 도입 → 하우스 오픈 전 출입 통제 강화</li>
-          <li>공연장 구조 분석, 관객·아티스트 동선 분리 및 우천 대비 동선 재구성 설계</li>
-            <li>현장 무대 디자인 기획 및 제작 전담 (스태프 비표, 행사 배너, 무대 그래픽 등 현장 적용 디자인)</li>
-          <li>좌석 이탈 시 20분 이상 경과 후 좌석 회수 운영 규칙 직접 설계·시행</li>
-          <li>만족도 조사 참여 307명 중 240명(약 80%) '운영 매우 만족' 응답</li>
-          <li>행사 이후 SNS·커뮤니티에 "좌석 관리와 우천 대비가 꼼꼼했다", "관객 통제가 잘 되어 안전하게 관람" 등 긍정 반응 다수</li>
-          <li>발주처 평가: "기획안 완성도와 현장 대응력이 모두 뛰어나다"</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">전체 기획 총괄</span>
-            <span class="role-chip done">아티스트 섭외·계약</span>
-            <span class="role-chip done">온·오프라인 홍보 집행</span>
-            <span class="role-chip done">관객 동선·안전 설계</span>
-            <span class="role-chip done">현장 운영 총괄</span>
-            <span class="role-chip done">홍보물·디자인 제작</span>
-            <span class="role-chip done">심사 운영</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="stat-pill">
-          <span class="stat-num">1,000<span class="stat-unit">+</span></span>
-          <span class="stat-label">관람객 동원</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">80<span class="stat-unit">%+</span></span>
-          <span class="stat-label">최상위 만족도</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">238</span>
-          <span class="stat-label">공모 접수 건수</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 2 : 부천시민콘서트 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2025 · 부천시청</div>
-      <div class="proj-title">제52주년 부천시민의 날 기념 시민콘서트</div>
-      <div class="proj-period">공연 운영 총괄 | 2025.06.25 ~ 11.30</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<ul class="proj-list">
+<li>공모 접수 238건 → 규격 검사 224팀 → 전문가 예선 10팀 → 현장 경연 5팀 수상, 전 심사 과정 운영 총괄</li>
+<li>LUCY 포함 30개 이상 뮤지션 직접 컨택 및 섭외 완료 (예산 범위 내 조건 협의·계약 체결)</li>
+<li>팔찌 티켓 기반 관객 관리 시스템 신규 도입 → 하우스 오픈 전 출입 통제 강화</li>
+<li>공연장 구조 분석, 관객·아티스트 동선 분리 및 우천 대비 동선 재구성 설계</li>
+<li>현장 무대 디자인 기획 및 제작 전담 (스태프 비표, 행사 배너, 무대 그래픽 등 현장 적용 디자인)</li>
+<li>좌석 이탈 시 20분 이상 경과 후 좌석 회수 운영 규칙 직접 설계·시행</li>
+<li>만족도 조사 참여 307명 중 240명(약 80%) '운영 매우 만족' 응답</li>
+<li>행사 이후 SNS·커뮤니티에 "좌석 관리와 우천 대비가 꼼꼼했다", "관객 통제가 잘 되어 안전하게 관람" 등 긍정 반응 다수</li>
+<li>발주처 평가: "기획안 완성도와 현장 대응력이 모두 뛰어나다"</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">전체 기획 총괄</span>
+<span class="role-chip done">아티스트 섭외·계약</span>
+<span class="role-chip done">온·오프라인 홍보 집행</span>
+<span class="role-chip done">관객 동선·안전 설계</span>
+<span class="role-chip done">현장 운영 총괄</span>
+<span class="role-chip done">홍보물·디자인 제작</span>
+<span class="role-chip done">심사 운영</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="stat-pill">
+<span class="stat-num">1,000<span class="stat-unit">+</span></span>
+<span class="stat-label">관람객 동원</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">80<span class="stat-unit">%+</span></span>
+<span class="stat-label">최상위 만족도</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">238</span>
+<span class="stat-label">공모 접수 건수</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PROJECT 2 : 부천시민콘서트 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2025 · 부천시청</div>
+<div class="proj-title">제52주년 부천시민의 날 기념 시민콘서트</div>
+<div class="proj-period">공연 운영 총괄 | 2025.06.25 ~ 11.30</div><div class="proj-contribution">담당 업무 기여도 65%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           약 2,000명 규모의 부천시 기념 시민콘서트. 지역 공연팀 제안·섭외부터 시나리오 작성, 홍보 영상 촬영 일정 총괄, 제작물·홍보물 등 모든 디자인 기획 및 제작, 스태프 통솔, 현장 운영까지 전담했습니다. 세팅 오류나 일정 지연 없이 행사를 완수하고 발주처로부터 일정 관리 역량을 인정받았습니다.
         </div>
-        <ul class="proj-list">
-          <li>기념식 퍼포먼스팀 직접 리스트업 → 발주처 제안 → 최종 섭외 성사</li>
-          <li>홍보 영상 대본 작성 및 촬영 일정 총괄 관리</li>
-          <li>행사 제작물·홍보물 디자인 기획·발주·검수·배포 전담</li>
-          <li>무대 간 텀 최소화, 좌석 배치 조정 → 현장 몰입도 향상</li>
-          <li>스태프 인력 통솔 및 현장 배치 운영 총괄</li>
-          <li>세팅 오류·일정 지연 0건으로 행사 완수</li>
-          <li>발주처 평가: "일정 관리 역량 인정"</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">아티스트 제안·섭외</span>
-            <span class="role-chip done">시나리오 작성</span>
-            <span class="role-chip done">홍보 영상 기획</span>
-            <span class="role-chip done">제작물·홍보물 디자인</span>
-            <span class="role-chip done">현장 운영 총괄</span>
-            <span class="role-chip done">스태프 인력 통솔</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="stat-pill">
-          <span class="stat-num">2,000</span>
-          <span class="stat-label">관람객 규모</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">0</span>
-          <span class="stat-label">세팅 오류 건수</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 3 : 의료AI반도체 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2026 · 연세대학교 미래산학협력단</div>
-      <div class="proj-title">2026 의료AI반도체 글로벌 네트워킹 행사<br><span style="font-size:16px;color:var(--text-mid);font-family:'Noto Sans KR'">Global Medical AI Semiconductor Partner Summit</span></div>
-      <div class="proj-period">사전 준비·운영·디자인 실질 총괄 | 2026.04.27 ~ 04.29 (3일간)</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<ul class="proj-list">
+<li>기념식 퍼포먼스팀 직접 리스트업 → 발주처 제안 → 최종 섭외 성사</li>
+<li>홍보 영상 대본 작성 및 촬영 일정 총괄 관리</li>
+<li>행사 제작물·홍보물 디자인 기획·발주·검수·배포 전담</li>
+<li>무대 간 텀 최소화, 좌석 배치 조정 → 현장 몰입도 향상</li>
+<li>스태프 인력 통솔 및 현장 배치 운영 총괄</li>
+<li>세팅 오류·일정 지연 0건으로 행사 완수</li>
+<li>발주처 평가: "일정 관리 역량 인정"</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">아티스트 제안·섭외</span>
+<span class="role-chip done">시나리오 작성</span>
+<span class="role-chip done">홍보 영상 기획</span>
+<span class="role-chip done">제작물·홍보물 디자인</span>
+<span class="role-chip done">현장 운영 총괄</span>
+<span class="role-chip done">스태프 인력 통솔</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="stat-pill">
+<span class="stat-num">2,000</span>
+<span class="stat-label">관람객 규모</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">0</span>
+<span class="stat-label">세팅 오류 건수</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PROJECT 3 : 의료AI반도체 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2026 · 연세대학교 미래산학협력단</div>
+<div class="proj-title">2026 의료AI반도체 글로벌 네트워킹 행사<br/><span style="font-size:16px;color:var(--text-mid);font-family:'Noto Sans KR'">Global Medical AI Semiconductor Partner Summit</span></div>
+<div class="proj-period">사전 준비·운영·디자인 실질 총괄 | 2026.04.27 ~ 04.29 (3일간)</div><div class="proj-contribution">담당 업무 기여도 80%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           NVIDIA, Microsoft, SambaNova, Tenstorrent, Viska.AI, INFINITIX, GIGABYTE 등 글로벌 AI 반도체·의료 플랫폼 기업이 참여하는 국제 규모의 파트너 서밋. PM은 팀장이었으나 계획안 작성, 업체 컨택 및 통솔, 전시월·산출물 디자인, 결과보고서 제작, 한국 연사 직접 컨택하여 일정 및 자료 관리, AI 실시간 자막·동시통역사 컨택·자료 업로드, 현장 운영 전반까지 실질적으로 주도했습니다.
         </div>
-        <ul class="proj-list">
-          <li>행사 계획안 작성 (3일 일정 전체: 전야제·서밋·워크숍 프로그램 구성)</li>
-          <li>업체 컨택 및 통솔 전반 담당 (장소·장비·케이터링·인쇄 등 협력업체 조율)</li>
-          <li>한국 연사 직접 컨택하여 일정 및 자료 관리</li>
-          <li>AI 실시간 자막 업체 및 동시통역사 직접 컨택·계약 협의·현장 자료 업로드</li>
-          <li>파트너사 전시부스 사전 제작 및 운영 총괄 담당 (15개사 부스 디자인 목업, 현장 설치·배치 확인)</li>
-          <li>전시부스 및 전시월 그래픽 디자인 전담 (글로벌 행사 수준 다크 테크 톤)</li>
-          <li>참가자 등록 데스크 운영, VIP 환담·단체촬영 진행, 럭키드로우 운영 등 현장 전반 담당</li>
-          <li>서밋 참가신청 511명, 실제 참가자 330명 / 워크숍 신청 98명, 참가자 30명</li>
-          <li>주제발표자 13명, 참여 파트너사 15개사 (NVIDIA·Microsoft·SambaNova 등) 조율</li>
-          <li>결과보고서(90p) 기획·작성·디자인 전담 완료</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">계획안 작성</span>
-            <span class="role-chip done">업체 컨택·통솔</span>
-            <span class="role-chip done">한국 연사 컨택·자료 관리</span>
-            <span class="role-chip done">동시통역사·AI 자막 컨택</span>
-            <span class="role-chip done">파트너사 부스 사전 제작·운영 총괄</span>
-            <span class="role-chip done">전시·홍보물 디자인</span>
-            <span class="role-chip done">현장 운영 전반</span>
-            <span class="role-chip done">결과보고서 작성·디자인</span>
-            <span class="role-chip assist">PM (팀장)</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="stat-pill">
-          <span class="stat-num">511</span>
-          <span class="stat-label">서밋 참가 신청</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">330</span>
-          <span class="stat-label">실제 참가자</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">15</span>
-          <span class="stat-label">글로벌 파트너사</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 4 : 그린리모델링 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2026 · 국토교통부 — 1등 낙찰 🏆</div>
-      <div class="proj-title">공공건축물 그린리모델링 설명회·워크숍·현장견학 운영지원 용역</div>
-      <div class="proj-period">제안서 메인 작성 및 디자인 | 2026</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<ul class="proj-list">
+<li>행사 계획안 작성 (3일 일정 전체: 전야제·서밋·워크숍 프로그램 구성)</li>
+<li>업체 컨택 및 통솔 전반 담당 (장소·장비·케이터링·인쇄 등 협력업체 조율)</li>
+<li>한국 연사 직접 컨택하여 일정 및 자료 관리</li>
+<li>AI 실시간 자막 업체 및 동시통역사 직접 컨택·계약 협의·현장 자료 업로드</li>
+<li>파트너사 전시부스 사전 제작 및 운영 총괄 담당 (15개사 부스 디자인 목업, 현장 설치·배치 확인)</li>
+<li>전시부스 및 전시월 그래픽 디자인 전담 (글로벌 행사 수준 다크 테크 톤)</li>
+<li>참가자 등록 데스크 운영, VIP 환담·단체촬영 진행, 럭키드로우 운영 등 현장 전반 담당</li>
+<li>서밋 참가신청 511명, 실제 참가자 330명 / 워크숍 신청 98명, 참가자 30명</li>
+<li>주제발표자 13명, 참여 파트너사 15개사 (NVIDIA·Microsoft·SambaNova 등) 조율</li>
+<li>결과보고서(90p) 기획·작성·디자인 전담 완료</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">계획안 작성</span>
+<span class="role-chip done">업체 컨택·통솔</span>
+<span class="role-chip done">한국 연사 컨택·자료 관리</span>
+<span class="role-chip done">동시통역사·AI 자막 컨택</span>
+<span class="role-chip done">파트너사 부스 사전 제작·운영 총괄</span>
+<span class="role-chip done">전시·홍보물 디자인</span>
+<span class="role-chip done">현장 운영 전반</span>
+<span class="role-chip done">결과보고서 작성·디자인</span>
+<span class="role-chip assist">PM (팀장)</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="stat-pill">
+<span class="stat-num">511</span>
+<span class="stat-label">서밋 참가 신청</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">330</span>
+<span class="stat-label">실제 참가자</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">15</span>
+<span class="stat-label">글로벌 파트너사</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PROJECT 4 : 그린리모델링 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2026 · 국토교통부 — 1등 낙찰 🏆</div>
+<div class="proj-title">공공건축물 그린리모델링 설명회·워크숍·현장견학 운영지원 용역</div>
+<div class="proj-period">제안서 메인 작성 및 디자인 | 2026</div><div class="proj-contribution">담당 업무 기여도 85%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           공공기관 입찰 제안서를 메인으로 단독 기획·작성·디자인하여 경쟁사를 제치고 1등 낙찰을 이끌었습니다. 발주기관 니즈 분석부터 운영 계획, 예산 배분, 위기 대응 시나리오까지 포함한 60페이지 분량의 완성도 높은 정성 제안서입니다.
         </div>
-        <ul class="proj-list">
-          <li>제안서 기획·작성·레이아웃 디자인 60페이지 전담 (인포그래픽 포함)</li>
-          <li>발주기관 니즈 분석, 차별화 운영안 및 콘셉트 도출</li>
-          <li>설명회·워크숍·현장견학 단계별 운영 시나리오 작성</li>
-          <li>예산 배분·리스크 대응 계획 포함한 완성형 제안서 구성</li>
-          <li>경쟁 입찰 결과 1등 낙찰 확정</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">제안서 기획·작성 메인</span>
-            <span class="role-chip done">레이아웃·디자인 전담</span>
-            <span class="role-chip done">운영 시나리오 수립</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="badge-1st">
-          <span class="num">1st</span>
-          <span class="lbl">낙찰 순위</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">60<span class="stat-unit">p</span></span>
-          <span class="stat-label">제안서 분량</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 5 : 국어 받아쓰기 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2025 · 국립국어원</div>
-      <div class="proj-title">2025년 국어 사랑 받아쓰기 대회</div>
-      <div class="proj-period">행사 운영 실질 총괄 | 2025.06.23 ~ 12.19</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<ul class="proj-list">
+<li>제안서 기획·작성·레이아웃 디자인 60페이지 전담 (인포그래픽 포함)</li>
+<li>발주기관 니즈 분석, 차별화 운영안 및 콘셉트 도출</li>
+<li>설명회·워크숍·현장견학 단계별 운영 시나리오 작성</li>
+<li>예산 배분·리스크 대응 계획 포함한 완성형 제안서 구성</li>
+<li>경쟁 입찰 결과 1등 낙찰 확정</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">제안서 기획·작성 메인</span>
+<span class="role-chip done">레이아웃·디자인 전담</span>
+<span class="role-chip done">운영 시나리오 수립</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="badge-1st">
+<span class="num">1st</span>
+<span class="lbl">낙찰 순위</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">60<span class="stat-unit">p</span></span>
+<span class="stat-label">제안서 분량</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PROJECT 5 : 국어 받아쓰기 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2025 · 국립국어원</div>
+<div class="proj-title">2025년 국어 사랑 받아쓰기 대회</div>
+<div class="proj-period">행사 운영 실질 총괄 | 2025.06.23 ~ 12.19</div><div class="proj-contribution">담당 업무 기여도 70%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           국립국어원 발주의 전국 규모 받아쓰기 대회. 발주처와의 모든 직접 컨택, 현장 세팅 및 업체 소통, 인력 및 현장 배치 통솔, 인쇄물 제작·배포까지 운영 실무 전반을 담당했습니다. 대회 진행 중에는 LED 화면 오퍼(영상 운영) 역할도 직접 수행했습니다.</div>
-        <ul class="proj-list">
-          <li>발주처(국립국어원) 직접 컨택하며 운영 전반 조율 (이메일·전화 포함 모든 소통 담당)</li>
-            <li>현장 세팅 및 업체 소통을 통한 인력·현장 배치 통솔 진행</li>
-            <li>대회 진행 중 LED 화면 오퍼(영상 운영) 직접 담당</li>
-          <li>인쇄물·명단 300세트 제작·발주·검수·배포 전담</li>
-          <li>3중 검수 프로세스 직접 설계: 1차 담당자 → 2차 대조표 확인 → 3차 결과 공유</li>
-          <li>납품 오류율 0건 달성 → 해당 검수 방식이 팀 공식 매뉴얼로 채택</li>
-          <li>현장 운영 당일 배치·진행·정리까지 주도적으로 수행</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">발주처 직접 컨택 전담</span>
-            <span class="role-chip done">운영 실무 전반</span>
-            <span class="role-chip done">제작물 발주·검수·배포</span>
-            <span class="role-chip done">3중 검수 프로세스 설계</span>
-            <span class="role-chip done">현장 운영 총괄</span>
-            
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="stat-pill">
-          <span class="stat-num">0</span>
-          <span class="stat-label">납품 오류율</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num">300</span>
-          <span class="stat-label">세트 관리</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 6 : 삼성생명 스타일마케팅 -->
-  <div class="proj-card">
-    <div class="proj-header">
-      <div class="proj-org">2026 · 원트리즈뮤직 × Samsung Financial Networks</div>
-      <div class="proj-title">삼성생명 FC 스타일마케팅 — 나 is 스타일 캠페인</div>
-      <div class="proj-period">캠페인 기획·로고·키비주얼·AI 쇼츠 제작 전담 | 2026</div>
-    </div>
-    <div class="proj-body">
-      <div>
-        <div class="proj-desc">
+<ul class="proj-list">
+<li>발주처(국립국어원) 직접 컨택하며 운영 전반 조율 (이메일·전화 포함 모든 소통 담당)</li>
+<li>현장 세팅 및 업체 소통을 통한 인력·현장 배치 통솔 진행</li>
+<li>대회 진행 중 LED 화면 오퍼(영상 운영) 직접 담당</li>
+<li>인쇄물·명단 300세트 제작·발주·검수·배포 전담</li>
+<li>3중 검수 프로세스 직접 설계: 1차 담당자 → 2차 대조표 확인 → 3차 결과 공유</li>
+<li>납품 오류율 0건 달성 → 해당 검수 방식이 팀 공식 매뉴얼로 채택</li>
+<li>현장 운영 당일 배치·진행·정리까지 주도적으로 수행</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">발주처 직접 컨택 전담</span>
+<span class="role-chip done">운영 실무 전반</span>
+<span class="role-chip done">제작물 발주·검수·배포</span>
+<span class="role-chip done">3중 검수 프로세스 설계</span>
+<span class="role-chip done">현장 운영 총괄</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="stat-pill">
+<span class="stat-num">0</span>
+<span class="stat-label">납품 오류율</span>
+</div>
+<div class="stat-pill">
+<span class="stat-num">300</span>
+<span class="stat-label">세트 관리</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PROJECT 6 : 삼성생명 스타일마케팅 -->
+<div class="proj-card">
+<div class="proj-header">
+<div class="proj-org">2026 · 원트리즈뮤직 × Samsung Financial Networks</div>
+<div class="proj-title">삼성생명 FC 스타일마케팅 — 나 is 스타일 캠페인</div>
+<div class="proj-period">캠페인 기획·로고·키비주얼·AI 쇼츠 제작 전담 | 2026</div><div class="proj-contribution">담당 업무 기여도 75%</div>
+</div>
+<div class="proj-body">
+<div>
+<div class="proj-desc">
           삼성생명 FC의 이미지·스타일 가이드 캠페인 프로젝트. '나 is 스타일' 캠페인 슬로건 기획 및 전용 로고를 직접 제작하고, 키비주얼 제작에 참여했습니다. YouTube Shorts 홍보 콘티 4편을 기획한 후 힉스필드(Seedance·Kling) AI 툴을 활용해 직접 영상까지 제작했습니다. AI 쇼츠 '스타일 올라갑니다' 편이 삼성생명 내부 홍보용으로 실제 사용 확정되었습니다.
         </div>
-        <ul class="proj-list">
-          <li>캠페인 슬로건 '나 is 스타일' 기획 및 전용 로고 직접 제작 (별빛하늘체 기반, 브랜드 아이덴티티 반영)</li>
-          <li>키비주얼 제작: 3D 캐릭터 안, 실사 포토 안, 타이포그래픽 안, 오브제 안</li>
-          <li>YouTube Shorts 콘티 기획 4편: 스타일업, 출근길 스타일링 작전, 올라갑니다, 맵시린</li>
-          <li>힉스필드(Seedance·Kling) 활용, AI 쇼츠 직접 제작 → 팀장 검토 후 클라이언트 최종 제출</li>
-          <li>'스타일 올라갑니다' 쇼츠 발탁 → 삼성생명 내부 홍보용으로 실제 사용 확정</li>
-        </ul>
-        <div class="role-section">
-          <div class="role-section-title">담당 역할</div>
-          <div class="role-group">
-            <span class="role-chip done">'나 is 스타일' 슬로건·로고 기획·제작</span>
-            <span class="role-chip done">키비주얼 4안 단독 디자인</span>
-            <span class="role-chip done">쇼츠 콘티 4편 기획</span>
-            <span class="role-chip done">AI 영상 제작 (힉스필드 Seedance·Kling)</span>
-            <span class="role-chip assist">팀장 최종 검토</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-stat-box">
-        <div class="stat-pill">
-          <span class="stat-label">삼성생명 내부 홍보 채널 활용 확정</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<ul class="proj-list">
+<li>캠페인 슬로건 '나 is 스타일' 기획 및 전용 로고 직접 제작 (별빛하늘체 기반, 브랜드 아이덴티티 반영)</li>
+<li>키비주얼 제작: 3D 캐릭터 안, 실사 포토 안, 타이포그래픽 안, 오브제 안</li>
+<li>YouTube Shorts 콘티 기획 4편: 스타일업, 출근길 스타일링 작전, 올라갑니다, 맵시린</li>
+<li>힉스필드(Seedance·Kling) 활용, AI 쇼츠 직접 제작 → 팀장 검토 후 클라이언트 최종 제출</li>
+<li>'스타일 올라갑니다' 쇼츠 발탁 → 삼성생명 내부 홍보용으로 실제 사용 확정</li>
+</ul>
+<div class="role-section">
+<div class="role-section-title">담당 역할</div>
+<div class="role-group">
+<span class="role-chip done">'나 is 스타일' 슬로건·로고 기획·제작</span>
+<span class="role-chip done">키비주얼 4안 단독 디자인</span>
+<span class="role-chip done">쇼츠 콘티 4편 기획</span>
+<span class="role-chip done">AI 영상 제작 (힉스필드 Seedance·Kling)</span>
+<span class="role-chip assist">팀장 최종 검토</span>
+</div>
+</div>
+</div>
+<div class="proj-stat-box">
+<div class="stat-pill">
+<span class="stat-label">삼성생명 내부 홍보 채널 활용 확정</span>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <!-- CREATIVE WORK -->
-<section id="creative" class="section">
-  <div class="sec-label">04 · Creative Work</div>
-  <div class="sec-title">크리에이티브 작업물</div>
-  <div class="creative-intro">기획자이자 디자이너로서 직접 제작한 모든 시각 산출물입니다. GTQ Photoshop·Illustrator 1급 보유. 아래 작업물은 전부 단독으로 디자인·제작했습니다.</div>
-
-  <div class="creative-category-label">🖼 전시부스 그래픽 디자인 — 월드IT쇼 COEX</div>
-  <div class="creative-grid three-col" style="margin-bottom:32px;">
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-009-94bf80e49c41.jpg" alt="AX 디바이스 전시부스 RobotWare.Ai">
-      <div class="creative-body">
-        <span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
-        <div class="creative-title">AX 디바이스 개발·실증 전시부스<br>RobotWare.Ai — AI 기반 농장 로봇 솔루션</div>
-        <div class="creative-desc">AI 분석·자동제어·데이터 인프라 기능 구조를 시각화한 전시 패널. 이틀의 촉박한 일정 내 단독 기획·디자인·제작 완료.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-010-247973709015.jpg" alt="AX 디바이스 전시부스 Rhinos">
-      <div class="creative-body">
-        <span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
-        <div class="creative-title">AX 디바이스 개발·실증 전시부스<br>Rhinos — AI 청소로봇 휠리</div>
-        <div class="creative-desc">자율주행 AI 청소로봇의 기술 차별성과 기대효과를 인포그래픽으로 구성. 동일 행사 멀티 부스 단독 디자인.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-011-696dd920135e.jpg" alt="쿠쿠홈시스 전시부스">
-      <div class="creative-body">
-        <span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
-        <div class="creative-title">AX 디바이스 개발·실증 전시부스<br>CUCKOO 쿠쿠홈시스 — AI 바리스타 정수기</div>
-        <div class="creative-desc">스마트홈 AI 가전 5칸 그래픽 디자인. 제품 강점 및 기술 구조를 5개 섹션으로 분할하여 레이아웃 구성.</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="creative-category-label">🎨 키비주얼 &amp; 포스터 디자인</div>
-  <div class="creative-grid three-col" style="margin-bottom:32px;">
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-012-3e867d75c10c.jpg" alt="의료AI반도체 VIP 포스터">
-      <div class="creative-body">
-        <span class="creative-tag">행사 포스터 · 2026</span>
-        <div class="creative-title">2026 글로벌 의료AI반도체 파트너 서밋<br>VIP 초청 포스터</div>
-        <div class="creative-desc">NVIDIA·Microsoft 등 글로벌 기업 참여 국제 행사의 공식 VIP 초청장 포스터 단독 디자인.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-013-8cd4bd46e2e3.jpg" alt="농협 조합장 포럼 키비주얼">
-      <div class="creative-body">
-        <span class="creative-tag">키비주얼 · 2026</span>
-        <div class="creative-title">2026년 농협 조합장 변화·혁신 포럼<br>제안서 키비주얼</div>
-        <div class="creative-desc">농협 공식 행사 키비주얼. 변화와 혁신을 상징하는 에너지 구체 모티프 다크 블루 콘셉트 디자인.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-014-359657e161d8.jpg" alt="인바운드 마케팅 설명회 키비주얼">
-      <div class="creative-body">
-        <span class="creative-tag">키비주얼 · 한국관광공사</span>
-        <div class="creative-title">인바운드 마케팅 지원서비스 연계<br>찾아가는 설명회 제안서 키비주얼</div>
-        <div class="creative-desc">한국관광공사 공식 행사 키비주얼. 한국 지도·비행기·도시 야경을 활용한 인바운드 관광 콘셉트.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-015-f38732ca9434.jpg" alt="원자력안전규제정보회의 키비주얼">
-      <div class="creative-body">
-        <span class="creative-tag">키비주얼 · 원자력안전위원회</span>
-        <div class="creative-title">2026 원자력안전규제정보회의<br>제안서 키비주얼 2안</div>
-        <div class="creative-desc">원자력안전위원회 공식 행사 대안 키비주얼. 파스텔 그라디언트 오브 콘셉트로 차별화한 방향성 제시.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-016-3dc57eaa4b61.jpg" alt="글로벌 바이오텍 쇼케이스 키비주얼">
-      <div class="creative-body">
-        <span class="creative-tag">키비주얼 · 국가신약개발재단</span>
-        <div class="creative-title">2026 Global Biotech Showcase<br>제안서 키비주얼 포스터</div>
-        <div class="creative-desc">국가신약개발재단 주최 글로벌 바이오텍 쇼케이스 공식 포스터. 테크 블루 3D 타이포 그래픽 콘셉트.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-017-db75f4bc971a.jpg" alt="공공건축물 그린리모델링 키비주얼">
-      <div class="creative-body">
-        <span class="creative-tag">키비주얼 · 국토안전관리원</span>
-        <div class="creative-title">2026 공공건축물 그린리모델링<br>사업설명회 키비주얼 2안</div>
-        <div class="creative-desc">1등 낙찰 제안서와 함께 제작한 행사 키비주얼. 녹색전환 콘셉트 일러스트 기반 디자인.</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="creative-category-label">📐 기타 산출물 디자인</div>
-  <div class="creative-grid three-col">
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-018-4d7c08308d31.jpg" alt="2025 라이징스타 스태프 비표">
-      <div class="creative-body">
-        <span class="creative-tag">비표 디자인 · 화성시문화관광재단</span>
-        <div class="creative-title">2025 라이징스타를 찾아라<br>스태프 비표 &amp; 타임테이블 큐시트</div>
-        <div class="creative-desc">현장 경연 당일 스태프 비표 및 운영 타임테이블 큐시트 디자인. 현장 경연·축하 공연·시상 전체 일정 시각화.</div>
-      </div>
-    </div>
-
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-019-1b98926c7349.jpg" alt="대한민국 관광공모전 전시회 약도">
-      <div class="creative-body">
-        <span class="creative-tag">인포그래픽 · 한국관광공사</span>
-        <div class="creative-title">2025 대한민국 관광공모전(사진)<br>전시회 약도 인포그래픽</div>
-        <div class="creative-desc">전시 공간 2·4·5층 동선을 도식화한 관람객용 약도 인포그래픽. 직관적 공간 안내 설계.</div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <img class="creative-img fit-contain" src="assets/image-020-c5dadec88271.jpg" alt="MiTAC 파트너사 부스 디자인">
-      <div class="creative-body">
-        <span class="creative-tag">전시부스 목업 · 의료AI반도체 서밋</span>
-        <div class="creative-title">2026 글로벌 의료AI반도체 서밋<br>MiTAC Computing 파트너사 부스 목업</div>
-        <div class="creative-desc">국제 서밋 참여 파트너사 전시부스 목업 디자인. 행사 비주얼 아이덴티티에 맞춘 다크 테크 톤 적용.</div>
-      </div>
-    </div>
-    </div>
-
-  </div>
-
-  <!-- 삼성생명 스타일마케팅 -->
-  <div class="creative-category-label">🎬 캠페인 로고·AI 쇼츠 — 삼성생명 FC 나 is 스타일</div>
-  <div class="creative-grid three-col" style="margin-bottom:32px;">
-
-    <div class="creative-card">
-      <div class="style-campaign-media style-campaign-logo">
-        <img src="assets/image-021-afc6d140d3da.png" alt="나 is 스타일 캠페인 로고">
-      </div>
-      <div class="creative-body">
-        <span class="creative-tag">캠페인 로고 · 삼성생명 FC 스타일마케팅</span>
-        <div class="creative-title">나 is 스타일 — 캠페인 슬로건 로고</div>
-        <div class="creative-desc">삼성생명 FC 스타일마케팅 전용 캠페인 슬로건과 로고 기획·제작. 별빛하늘체 기반 '나 is 스타일' 로고타입을 직접 설계, 개성과 자신감의 브랜드 이미지를 시각화.</div>
-      </div>
-    </div>
-
-
-    <div class="creative-card">
-      <div class="style-campaign-media style-campaign-shorts">
-        <img src="assets/image-022-83e29205ba0e.jpg" alt="메이크업스튜디오 LED판 장면">
-        <img src="assets/shorts-21s.jpg" alt="스타일 올라갑니다 영상 21초 헤어 스타일링 장면">
-      </div>
-      <div class="creative-body">
-        <span class="creative-tag">AI 쇼츠 · 삼성생명 FC 스타일마케팅</span>
-        <div class="creative-title">스타일 올라갑니다<br>삼성생명 FC 홍보 AI Shorts</div>
-        <div class="creative-desc">힉스필드(Seedance·Kling) 활용, 쇼츠 콘티 기획부터 AI 영상 제작까지 직접 수행. '스타일 올라갑니다'편이 삼성생명 내부 홍보 채널 활용 확정.</div>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- FIELD SCENES -->
-<section id="scenes" class="section">
-  <div class="sec-label">05 · Field Scenes &amp; Audience Voices</div>
-  <div class="sec-title">현장 기록 &amp; 관객 반응</div>
-  <div class="scene-intro">직접 운영·기획한 공연·행사의 실제 현장 모습과 관객들의 생생한 반응입니다. 수치 너머의 감동을 담았습니다.</div>
-
-  <!-- 만족도 통계 -->
-  <div class="survey-stats">
-    <div class="survey-title">📊 2025 라이징스타를 찾아라 — 관람객 만족도 조사</div>
-    <div class="survey-sub">유효 응답 306건 · 2025.09.06 현장 실시간 수집</div>
-    <div class="survey-row">
-      <div class="survey-stat">
-        <span class="num">4.69<span class="unit">/5</span></span>
-        <span class="lbl">전체 진행 만족도 평균</span>
-        <span class="sub-lbl">n=306</span>
-      </div>
-      <div class="survey-stat">
-        <span class="num">78<span class="unit">%</span></span>
-        <span class="lbl">최고점(5점) 응답 비율</span>
-        <span class="sub-lbl">240명 / 306명</span>
-      </div>
-      <div class="survey-stat">
-        <span class="num">94<span class="unit">%</span></span>
-        <span class="lbl">4점 이상 응답 비율</span>
-        <span class="sub-lbl">289명 / 306명</span>
-      </div>
-      <div class="survey-stat">
-        <span class="num">4.54<span class="unit">/5</span></span>
-        <span class="lbl">사전 공지 만족도</span>
-        <span class="sub-lbl">4+5점 응답 88.5%</span>
-      </div>
-    </div>
-    <div class="bar-section">
-      <div style="font-size:11px;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;font-weight:600;">전체 진행 만족도 분포</div>
-      <div class="bar-row"><span class="bar-label">5점 (매우 만족)</span><div class="bar-track"><div class="bar-fill lav" style="width:78.4%"></div></div><span class="bar-pct">78.4%</span></div>
-      <div class="bar-row"><span class="bar-label">4점</span><div class="bar-track"><div class="bar-fill lav" style="width:16%"></div></div><span class="bar-pct">16.0%</span></div>
-      <div class="bar-row"><span class="bar-label">3점</span><div class="bar-track"><div class="bar-fill pink" style="width:3.3%"></div></div><span class="bar-pct">3.3%</span></div>
-      <div class="bar-row"><span class="bar-label">2점 이하</span><div class="bar-track"><div class="bar-fill pink" style="width:2.3%"></div></div><span class="bar-pct">2.3%</span></div>
-    </div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
-      <div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">📣 인스타그램 유입 <strong style="color:var(--purple-dark)">65.7%</strong></div>
-      <div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🎭 축하공연 우수 선택 <strong style="color:var(--purple-dark)">258명</strong></div>
-      <div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🏅 본선경연 우수 선택 <strong style="color:var(--purple-dark)">204명</strong></div>
-      <div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🙋 문의 응대 만족도 <strong style="color:var(--purple-dark)">4.53/5</strong></div>
-    </div>
-  </div>
-
-  <!-- 관객 목소리 -->
-  <div class="scene-block">
-    <div class="scene-block-title">💬 관람객 실제 반응 (설문 자유응답 발췌)</div>
-    <div class="voice-grid">
-      <div class="voice-card"><p>관계자분들이 친절하셔서 행복했어요! 전반적으로 너무 풍성하고 신나서 하루 즐겁게 놀러온 것 같고 정말 행복해요! 인천에서 오는 게 고민됐는데 오길 너무 잘했다는 생각이 들어요.</p><div class="voice-source">— 인스타그램 유입 관람객 | 만족도 5점</div></div>
-      <div class="voice-card"><p>안전에 따라 순차적으로 입장하고 혼동이 없어서 좋았습니다. 사람이 몰릴 수도 있었는데 사전 추첨으로 인원을 선정해서 좋았습니다!</p><div class="voice-source">— 현장 관람객 | 만족도 5점</div></div>
-      <div class="voice-card"><p>시큐분들과 스텝분들이 너무 친절하셔서 경연 내내 편안하게 관람했습니다. 우비 준비해주시고 안내가 친절해서 너무 좋았어요.</p><div class="voice-source">— 현장 관람객 | 만족도 5점</div></div>
-      <div class="voice-card"><p>역대급으로 행사 진행이 매끄럽고 직원들이 친절해서 덥고 습했지만 마음이 쾌적했어요. 진행 MC분도 따뜻하고 좋았습니다.</p><div class="voice-source">— 현장 관람객 | 만족도 최상위 선택</div></div>
-    </div>
-  </div>
-
-  <!-- 현장 사진 - 라이징스타 현장 -->
-  <div class="scene-block">
-    <div class="scene-block-title">🌟 2025 라이징스타를 찾아라 — 현장 경연 운영</div>
-    <div class="scene-grid-2">
-      <div class="scene-card">
-        <img class="scene-img portrait" src="assets/image-024-8926ab197614.jpg" alt="라이징스타 현장 경연">
-        <div class="scene-caption"><strong>현장 경연 공연 현장</strong>2025.09.06 동탄복합문화센터 야외공연장. 폭우 속에서도 관람객 1,000명+ 동원 성공. 현장 운영 전담.</div>
-      </div>
-    <div style="margin-top:20px;">
-      <div style="font-size:12px;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;font-weight:600;">📱 SNS 커뮤니티 실제 반응</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div class="sns-card">
-          <img class="sns-img" src="assets/image-025-a6499639d70b.jpg" alt="라이징스타 SNS 반응 1" style="height:260px;object-fit:cover;object-position:top;">
-          <div class="sns-caption">
-            <span class="sns-tag">Twitter / X · 조회 1.5만 · ❤️ 305</span>
-            <div class="sns-text">"시큐분들 진짜 ㄹㅈㄷ 친절하셔요" / "진짜 제가 갔던 스케중에서 제일 친절하셔요"</div>
-          </div>
-        </div>
-        <div class="sns-card">
-          <img class="sns-img" src="assets/image-026-284bb9f7a265.jpg" alt="라이징스타 SNS 반응 2" style="height:260px;object-fit:cover;object-position:top;">
-          <div class="sns-caption">
-            <span class="sns-tag">Twitter / X · 팬 관람 후기</span>
-            <div class="sns-text">"모든 스텝분들 너무 친절하셨고 사회자분도 공연 너무 잘 이끌어 주시고 단차있어서 시야도 짱👍"</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- 현장 사진 - 부천 인터뷰 -->
-  <div class="scene-block">
-    <div class="scene-block-title">🎬 부천시민의 날 콘서트 — 홍보 인터뷰 촬영 총괄</div>
-    <div class="scene-grid-2">
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-027-990375295ccf.jpg" alt="부천 인터뷰 촬영 실내">
-        <div class="scene-caption"><strong>인터뷰 촬영 현장 총괄</strong>부천시민의 날 콘서트 홍보 인터뷰 촬영 기획·진행 총괄. 촬영 장소 섭외, 섭외 대상 선정, 현장 진행 전담.</div>
-      </div>
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-028-eecb7ddbf871.jpg" alt="부천 인터뷰 촬영 야외">
-        <div class="scene-caption"><strong>야외 인터뷰 촬영 현장</strong>다양한 로케이션에서 진행된 인터뷰 촬영. 장소 섭외 및 당일 현장 운영 총괄.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 현장 사진 - GFC Summer Festa -->
-  <div class="scene-block">
-    <div class="scene-block-title">🎤 삼성생명 GREAT SUMMER FESTA 2025 — KINTEX 대규모 콘서트 운영 참여</div>
-    <div class="scene-grid-2" style="margin-bottom:14px;">
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-029-82205a81d68e.jpg" alt="GFC 리허설 세팅">
-        <div class="scene-caption"><strong>공연 전 세팅 현장</strong>KINTEX 대규모 공연장 좌석 배치 및 무대 세팅 확인. 수천 석 규모 공연 사전 점검 참여.</div>
-      </div>
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-030-f900ed1015c8.jpg" alt="GFC 리허설 LED">
-        <div class="scene-caption"><strong>리허설 LED 점검</strong>공연 당일 무대 LED 시스템 점검 과정 참여.</div>
-      </div>
-    </div>
-    <div class="scene-grid-2">
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-031-31a4bc3c24db.jpg" alt="GFC 공연 현장">
-        <div class="scene-caption"><strong>공연 진행 현장</strong>GREAT SUMMER FESTA 2025 본 공연 현장 운영.</div>
-      </div>
-      <div class="scene-card">
-        <img class="scene-img landscape" src="assets/image-032-9adf19b8cba5.jpg" alt="GFC 인터뷰 촬영">
-        <div class="scene-caption"><strong>인터뷰 촬영 현장</strong>GFC GREAT SUMMER FESTA 2025 관련 인터뷰 촬영 현장.</div>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<!-- OTHER PROJECTS -->
-<section id="others" class="section">
-  <div class="sec-label">06 · Other Projects</div>
-  <div class="sec-title">그 외 프로젝트 (2025–2026)</div>
-  <div class="sec-sub">1년간 수행한 다양한 공연·행사·전시·포럼 프로젝트입니다.</div>
-  <table class="other-table">
-    <thead>
-      <tr>
-        <th>프로젝트명</th>
-        <th>발주기관</th>
-        <th>기간</th>
-        <th>참여 형태</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>제12회 청소년 통일문화 경연대회 운영</td><td>국립통일교육원</td><td>25.05~12</td><td class="td-main">운영 메인</td></tr>
-      <tr><td>지평리 전투 국제 학술심포지엄 운영</td><td>양평군청</td><td>25.05~07</td><td class="td-sub">운영</td></tr>
-      <tr><td>제16회 이데일리 전략포럼 행사대행</td><td>이데일리</td><td>25.05~06</td><td class="td-sub">운영</td></tr>
-      <tr><td>동·하절기 절전 캠페인 출범식</td><td>한국에너지공단</td><td>25.07</td><td class="td-sub">당일 지원</td></tr>
-      <tr><td>GFC GREAT SUMMER FESTA</td><td>삼성생명 GFC사업부</td><td>25.07~</td><td class="td-sub">운영</td></tr>
-      <tr><td>인바운드 마케팅 지원 서비스 연계 설명회</td><td>한국관광공사</td><td>25.07~08</td><td class="td-sub">운영</td></tr>
-      <tr><td>2025 대한민국 관광공모전(사진) 운영 및 전시</td><td>한국관광공사</td><td>25.06~12</td><td class="td-main">운영 메인</td></tr>
-      <tr><td>2025년 강화 지역예술인 뮤직페스티벌</td><td>강화군청</td><td>25.11</td><td class="td-sub">운영</td></tr>
-      <tr><td>2025 문화 디지털혁신 및 데이터 공모전·포럼</td><td>한국문화정보원</td><td>25.10~11</td><td class="td-sub">운영</td></tr>
-            <tr><td>2026 공공건축물 그린리모델링 사업설명회·워크숍·현장견학 (키비주얼·간지·키오스크·책자·배너 등 모든 디자인 기획·제작 전담)</td><td>국토안전관리원</td><td>26.04</td><td class="td-main">디자인 전담 + 운영</td></tr>
-      <tr><td>2025 아프리카주간(Africa Week)</td><td>한아프리카재단</td><td>25.12</td><td class="td-sub">운영</td></tr>
-      <tr><td>서울 중장년 가치동행일자리 성과공유회</td><td>서울시50플러스재단</td><td>25.12</td><td class="td-sub">운영</td></tr>
-            <tr><td>2025 JK FINANCIAL PARTNERS — 3D 홀로그램 전시 파트 운영</td><td>중겸</td><td>25.12~26.01</td><td class="td-sub">운영</td></tr>
-      <tr><td>2025년 디지털윤리대전</td><td>NIA 한국지능정보원</td><td>25.12</td><td class="td-sub">운영</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- VISION -->
-<section id="vision" class="section">
-  <div class="sec-label">08 · Vision / Career Goal</div>
-  <div class="sec-title">공연기획자로서의 방향성</div>
-  <div class="vision-box">
-    <div class="vision-q">
-      "관객이 공연을 <span>'콘텐츠'</span>가 아닌<br>
-      <span>'경험'</span>으로 기억하게 만드는 기획자"
-    </div>
-    <div class="vision-desc">
-      작은 무대에서 쌓아온 현장 경험을 기반으로, 관객이 공연의 시작부터 끝까지 몰입할 수 있는 완성도 높은 무대를 만들고 싶습니다. 기획과 실행이 일치하고, 그 중심에 '관객의 경험'이 존재하는 공연을 완성하겠습니다.
-    </div>
-    <div class="vision-timeline">
-      <div class="vt-item">
-        <span class="vt-year">1년차</span>
-        <div class="vt-text">현장 운영·기획 전 과정 체계적 습득, 몰입도 향상 기여</div>
-      </div>
-      <div class="vt-item">
-        <span class="vt-year">2–3년차</span>
-        <div class="vt-text">세부 기획 파트 담당, 콘셉트 시각화, 완성형 공연기획자</div>
-      </div>
-      <div class="vt-item">
-        <span class="vt-year">장기 목표</span>
-        <div class="vt-text">대형 공연 PM, 기획~운영 전 과정 총괄</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<div class="contact-sec">
-  <div class="contact-name">Kang<br><span>Yoon Ah</span></div>
-  <div class="contact-info">
-    <div class="ci-label">Contact</div>
-    <div class="ci-line">
-      010.8748.9934<br>
-      <a href="mailto:dbsdk710306@naver.com">dbsdk710306@naver.com</a><br>
-      서울시 광진구 아차산로 16-5
-    </div>
-    <br>
-    <div class="ci-label">Skills</div>
-    <div class="ci-line">
-      Photoshop (GTQ 1급) · Illustrator (GTQ 1급)<br>
-      Excel · PowerPoint · 한글 · Vllo
-    </div>
-  </div>
+<section class="section" id="creative">
+<div class="sec-label">04 · Creative Work</div>
+<div class="sec-title">크리에이티브 작업물</div>
+<div class="creative-intro">기획자이자 디자이너로서 직접 제작한 모든 시각 산출물입니다. GTQ Photoshop·Illustrator 1급 보유. 아래 작업물은 전부 단독으로 디자인·제작했습니다.</div>
+<div class="creative-category-label">🖼 전시부스 그래픽 디자인 — 월드IT쇼 COEX</div>
+<div class="creative-grid three-col" style="margin-bottom:32px;">
+<div class="creative-card">
+<img alt="AX 디바이스 전시부스 RobotWare.Ai" class="creative-img fit-contain" src="assets/image-009-94bf80e49c41.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
+<div class="creative-title">AX 디바이스 개발·실증 전시부스<br/>RobotWare.Ai — AI 기반 농장 로봇 솔루션</div>
+<div class="creative-desc">AI 분석·자동제어·데이터 인프라 기능 구조를 시각화한 전시 패널. 이틀의 촉박한 일정 내 단독 기획·디자인·제작 완료.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="AX 디바이스 전시부스 Rhinos" class="creative-img fit-contain" src="assets/image-010-247973709015.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
+<div class="creative-title">AX 디바이스 개발·실증 전시부스<br/>Rhinos — AI 청소로봇 휠리</div>
+<div class="creative-desc">자율주행 AI 청소로봇의 기술 차별성과 기대효과를 인포그래픽으로 구성. 동일 행사 멀티 부스 단독 디자인.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="쿠쿠홈시스 전시부스" class="creative-img fit-contain" src="assets/image-011-696dd920135e.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">전시부스 · 월드IT쇼 COEX</span>
+<div class="creative-title">AX 디바이스 개발·실증 전시부스<br/>CUCKOO 쿠쿠홈시스 — AI 바리스타 정수기</div>
+<div class="creative-desc">스마트홈 AI 가전 5칸 그래픽 디자인. 제품 강점 및 기술 구조를 5개 섹션으로 분할하여 레이아웃 구성.</div>
+</div>
+</div>
+</div>
+<div class="creative-category-label">🎨 키비주얼 &amp; 포스터 디자인</div>
+<div class="creative-grid three-col" style="margin-bottom:32px;">
+<div class="creative-card">
+<img alt="의료AI반도체 VIP 포스터" class="creative-img fit-contain" src="assets/image-012-3e867d75c10c.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">행사 포스터 · 2026</span>
+<div class="creative-title">2026 글로벌 의료AI반도체 파트너 서밋<br/>VIP 초청 포스터</div>
+<div class="creative-desc">NVIDIA·Microsoft 등 글로벌 기업 참여 국제 행사의 공식 VIP 초청장 포스터 단독 디자인.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="농협 조합장 포럼 키비주얼" class="creative-img fit-contain" src="assets/image-013-8cd4bd46e2e3.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">키비주얼 · 2026</span>
+<div class="creative-title">2026년 농협 조합장 변화·혁신 포럼<br/>제안서 키비주얼</div>
+<div class="creative-desc">농협 공식 행사 키비주얼. 변화와 혁신을 상징하는 에너지 구체 모티프 다크 블루 콘셉트 디자인.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="인바운드 마케팅 설명회 키비주얼" class="creative-img fit-contain" src="assets/image-014-359657e161d8.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">키비주얼 · 한국관광공사</span>
+<div class="creative-title">인바운드 마케팅 지원서비스 연계<br/>찾아가는 설명회 제안서 키비주얼</div>
+<div class="creative-desc">한국관광공사 공식 행사 키비주얼. 한국 지도·비행기·도시 야경을 활용한 인바운드 관광 콘셉트.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="원자력안전규제정보회의 키비주얼" class="creative-img fit-contain" src="assets/image-015-f38732ca9434.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">키비주얼 · 원자력안전위원회</span>
+<div class="creative-title">2026 원자력안전규제정보회의<br/>제안서 키비주얼 2안</div>
+<div class="creative-desc">원자력안전위원회 공식 행사 대안 키비주얼. 파스텔 그라디언트 오브 콘셉트로 차별화한 방향성 제시.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="글로벌 바이오텍 쇼케이스 키비주얼" class="creative-img fit-contain" src="assets/image-016-3dc57eaa4b61.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">키비주얼 · 국가신약개발재단</span>
+<div class="creative-title">2026 Global Biotech Showcase<br/>제안서 키비주얼 포스터</div>
+<div class="creative-desc">국가신약개발재단 주최 글로벌 바이오텍 쇼케이스 공식 포스터. 테크 블루 3D 타이포 그래픽 콘셉트.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="공공건축물 그린리모델링 키비주얼" class="creative-img fit-contain" src="assets/image-017-db75f4bc971a.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">키비주얼 · 국토안전관리원</span>
+<div class="creative-title">2026 공공건축물 그린리모델링<br/>사업설명회 키비주얼 2안</div>
+<div class="creative-desc">1등 낙찰 제안서와 함께 제작한 행사 키비주얼. 녹색전환 콘셉트 일러스트 기반 디자인.</div>
+</div>
+</div>
+</div>
+<div class="creative-category-label">📐 기타 산출물 디자인</div>
+<div class="creative-grid three-col output-grid-balanced">
+<div class="creative-card">
+<img alt="2025 라이징스타 스태프 비표" class="creative-img fit-contain" src="assets/image-018-4d7c08308d31.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">비표 디자인 · 화성시문화관광재단</span>
+<div class="creative-title">2025 라이징스타를 찾아라<br/>스태프 비표 &amp; 타임테이블 큐시트</div>
+<div class="creative-desc">현장 경연 당일 스태프 비표 및 운영 타임테이블 큐시트 디자인. 현장 경연·축하 공연·시상 전체 일정 시각화.</div>
+</div>
+</div>
+<div class="creative-card">
+<img alt="MiTAC 파트너사 부스 디자인" class="creative-img fit-contain" src="assets/image-020-c5dadec88271.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">전시부스 목업 · 의료AI반도체 서밋</span>
+<div class="creative-title">2026 글로벌 의료AI반도체 서밋<br/>MiTAC Computing 파트너사 부스 목업</div>
+<div class="creative-desc">국제 서밋 참여 파트너사 전시부스 목업 디자인. 행사 비주얼 아이덴티티에 맞춘 다크 테크 톤 적용.</div>
+</div>
+</div>
+<div class="creative-card" data-gallery="assets/jk-worldcup-uniform.png||assets/jk-worldcup-scarves.png||assets/jk-worldcup-cheering-sticks.png||assets/jk-worldcup-stickers.png" data-gallery-label="유니폼||응원 머플러 2종||막대풍선 응원봉||스티커 시안">
+<img alt="월드컵 단체관람 브랜드 응원 MD 4종" class="creative-img fit-contain" src="assets/jk-worldcup-md-collage.jpg"/>
+<div class="creative-body">
+<span class="creative-tag">행사 MD · 보험사 월드컵 단체관람</span>
+<div class="creative-title">월드컵 단체관람<br/>브랜드 응원 MD 4종</div>
+<div class="creative-desc">기업 아이덴티티를 축구 응원 콘셉트로 확장해 유니폼·머플러·막대풍선·스티커를 기획·디자인하고, 행사 현장 배포까지 진행한 브랜드 MD 프로젝트.</div>
+</div>
+</div>
 </div>
 
+<!-- 삼성생명 스타일마케팅 -->
+<div class="creative-category-label">🎬 캠페인 로고·AI 쇼츠 — 삼성생명 FC 나 is 스타일</div>
+<div class="creative-grid three-col" style="margin-bottom:32px;">
+<div class="creative-card">
+<div class="style-campaign-media style-campaign-logo">
+<img alt="나 is 스타일 캠페인 로고" src="assets/image-021-afc6d140d3da.png"/>
+</div>
+<div class="creative-body">
+<span class="creative-tag">캠페인 로고 · 삼성생명 FC 스타일마케팅</span>
+<div class="creative-title">나 is 스타일 — 캠페인 슬로건 로고</div>
+<div class="creative-desc">삼성생명 FC 스타일마케팅 전용 캠페인 슬로건과 로고 기획·제작. 별빛하늘체 기반 '나 is 스타일' 로고타입을 직접 설계, 개성과 자신감의 브랜드 이미지를 시각화.</div>
+</div>
+</div>
+<div class="creative-card">
+<div class="style-campaign-media style-campaign-shorts">
+<img alt="메이크업스튜디오 LED판 장면" src="assets/image-022-83e29205ba0e.jpg"/>
+<img alt="스타일 올라갑니다 영상 21초 헤어 스타일링 장면" src="assets/shorts-21s.jpg"/>
+</div>
+<div class="creative-body">
+<span class="creative-tag">AI 쇼츠 · 삼성생명 FC 스타일마케팅</span>
+<div class="creative-title">스타일 올라갑니다<br/>삼성생명 FC 홍보 AI Shorts</div>
+<div class="creative-desc">힉스필드(Seedance·Kling) 활용, 쇼츠 콘티 기획부터 AI 영상 제작까지 직접 수행. '스타일 올라갑니다'편이 삼성생명 내부 홍보 채널 활용 확정.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FIELD SCENES -->
+<section class="section" id="scenes">
+<div class="sec-label">05 · Field Scenes &amp; Audience Voices</div>
+<div class="sec-title">현장 기록 &amp; 관객 반응</div>
+<div class="scene-intro">직접 운영·기획한 공연·행사의 실제 현장 모습과 관객들의 생생한 반응입니다. 수치 너머의 감동을 담았습니다.</div>
+<!-- 만족도 통계 -->
+<div class="survey-stats">
+<div class="survey-title">📊 2025 라이징스타를 찾아라 — 관람객 만족도 조사</div>
+<div class="survey-sub">유효 응답 306건 · 2025.09.06 현장 실시간 수집</div>
+<div class="survey-row">
+<div class="survey-stat">
+<span class="num">4.69<span class="unit">/5</span></span>
+<span class="lbl">전체 진행 만족도 평균</span>
+<span class="sub-lbl">n=306</span>
+</div>
+<div class="survey-stat">
+<span class="num">78<span class="unit">%</span></span>
+<span class="lbl">최고점(5점) 응답 비율</span>
+<span class="sub-lbl">240명 / 306명</span>
+</div>
+<div class="survey-stat">
+<span class="num">94<span class="unit">%</span></span>
+<span class="lbl">4점 이상 응답 비율</span>
+<span class="sub-lbl">289명 / 306명</span>
+</div>
+<div class="survey-stat">
+<span class="num">4.54<span class="unit">/5</span></span>
+<span class="lbl">사전 공지 만족도</span>
+<span class="sub-lbl">4+5점 응답 88.5%</span>
+</div>
+</div>
+<div class="bar-section">
+<div style="font-size:11px;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;font-weight:600;">전체 진행 만족도 분포</div>
+<div class="bar-row"><span class="bar-label">5점 (매우 만족)</span><div class="bar-track"><div class="bar-fill lav" style="width:78.4%"></div></div><span class="bar-pct">78.4%</span></div>
+<div class="bar-row"><span class="bar-label">4점</span><div class="bar-track"><div class="bar-fill lav" style="width:16%"></div></div><span class="bar-pct">16.0%</span></div>
+<div class="bar-row"><span class="bar-label">3점</span><div class="bar-track"><div class="bar-fill pink" style="width:3.3%"></div></div><span class="bar-pct">3.3%</span></div>
+<div class="bar-row"><span class="bar-label">2점 이하</span><div class="bar-track"><div class="bar-fill pink" style="width:2.3%"></div></div><span class="bar-pct">2.3%</span></div>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+<div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">📣 인스타그램 유입 <strong style="color:var(--purple-dark)">65.7%</strong></div>
+<div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🎭 축하공연 우수 선택 <strong style="color:var(--purple-dark)">258명</strong></div>
+<div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🏅 본선경연 우수 선택 <strong style="color:var(--purple-dark)">204명</strong></div>
+<div style="background:white;border-radius:10px;padding:10px 16px;font-size:12px;color:var(--text-mid);box-shadow:0 2px 8px rgba(120,100,180,0.08);">🙋 문의 응대 만족도 <strong style="color:var(--purple-dark)">4.53/5</strong></div>
+</div>
+</div>
+<!-- 관객 목소리 -->
+<div class="scene-block">
+<div class="scene-block-title">💬 관람객 실제 반응 (설문 자유응답 발췌)</div>
+<div class="voice-grid">
+<div class="voice-card"><p>관계자분들이 친절하셔서 행복했어요! 전반적으로 너무 풍성하고 신나서 하루 즐겁게 놀러온 것 같고 정말 행복해요! 인천에서 오는 게 고민됐는데 오길 너무 잘했다는 생각이 들어요.</p><div class="voice-source">— 인스타그램 유입 관람객 | 만족도 5점</div></div>
+<div class="voice-card"><p>안전에 따라 순차적으로 입장하고 혼동이 없어서 좋았습니다. 사람이 몰릴 수도 있었는데 사전 추첨으로 인원을 선정해서 좋았습니다!</p><div class="voice-source">— 현장 관람객 | 만족도 5점</div></div>
+<div class="voice-card"><p>시큐분들과 스텝분들이 너무 친절하셔서 경연 내내 편안하게 관람했습니다. 우비 준비해주시고 안내가 친절해서 너무 좋았어요.</p><div class="voice-source">— 현장 관람객 | 만족도 5점</div></div>
+<div class="voice-card"><p>역대급으로 행사 진행이 매끄럽고 직원들이 친절해서 덥고 습했지만 마음이 쾌적했어요. 진행 MC분도 따뜻하고 좋았습니다.</p><div class="voice-source">— 현장 관람객 | 만족도 최상위 선택</div></div>
+</div>
+</div>
+<!-- 현장 사진 - 라이징스타 현장 -->
+<div class="scene-block">
+<div class="scene-block-title">🌟 2025 라이징스타를 찾아라 — 현장 경연 운영</div>
+<div class="scene-grid-2">
+<div class="scene-card">
+<img alt="라이징스타 현장 경연" class="scene-img portrait" src="assets/image-024-8926ab197614.jpg"/>
+<div class="scene-caption"><strong>현장 경연 공연 현장</strong>2025.09.06 동탄복합문화센터 야외공연장. 폭우 속에서도 관람객 1,000명+ 동원 성공. 현장 운영 전담.</div>
+</div>
+<div style="margin-top:20px;">
+<div style="font-size:12px;color:var(--text-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;font-weight:600;">📱 SNS 커뮤니티 실제 반응</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div class="sns-card">
+<img alt="라이징스타 SNS 반응 1" class="sns-img" src="assets/image-025-a6499639d70b.jpg" style="height:260px;object-fit:cover;object-position:top;"/>
+<div class="sns-caption">
+<span class="sns-tag">Twitter / X · 조회 1.5만 · ❤️ 305</span>
+<div class="sns-text">"시큐분들 진짜 ㄹㅈㄷ 친절하셔요" / "진짜 제가 갔던 스케중에서 제일 친절하셔요"</div>
+</div>
+</div>
+<div class="sns-card">
+<img alt="라이징스타 SNS 반응 2" class="sns-img" src="assets/image-026-284bb9f7a265.jpg" style="height:260px;object-fit:cover;object-position:top;"/>
+<div class="sns-caption">
+<span class="sns-tag">Twitter / X · 팬 관람 후기</span>
+<div class="sns-text">"모든 스텝분들 너무 친절하셨고 사회자분도 공연 너무 잘 이끌어 주시고 단차있어서 시야도 짱👍"</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 현장 사진 - 부천 인터뷰 -->
+<div class="scene-block">
+<div class="scene-block-title">🎬 부천시민의 날 콘서트 — 홍보 인터뷰 촬영 총괄</div>
+<div class="scene-grid-2">
+<div class="scene-card">
+<img alt="부천 인터뷰 촬영 실내" class="scene-img landscape" src="assets/image-027-990375295ccf.jpg"/>
+<div class="scene-caption"><strong>인터뷰 촬영 현장 총괄</strong>부천시민의 날 콘서트 홍보 인터뷰 촬영 기획·진행 총괄. 촬영 장소 섭외, 섭외 대상 선정, 현장 진행 전담.</div>
+</div>
+<div class="scene-card">
+<img alt="부천 인터뷰 촬영 야외" class="scene-img landscape" src="assets/image-028-eecb7ddbf871.jpg"/>
+<div class="scene-caption"><strong>야외 인터뷰 촬영 현장</strong>다양한 로케이션에서 진행된 인터뷰 촬영. 장소 섭외 및 당일 현장 운영 총괄.</div>
+</div>
+</div>
+</div>
+<!-- 현장 사진 - GFC Summer Festa -->
+<div class="scene-block">
+<div class="scene-block-title">🎤 삼성생명 GREAT SUMMER FESTA 2025 — KINTEX 대규모 콘서트 운영 참여</div>
+<div class="scene-grid-2" style="margin-bottom:14px;">
+<div class="scene-card">
+<img alt="GFC 리허설 세팅" class="scene-img landscape" src="assets/image-029-82205a81d68e.jpg"/>
+<div class="scene-caption"><strong>공연 전 세팅 현장</strong>KINTEX 대규모 공연장 좌석 배치 및 무대 세팅 확인. 수천 석 규모 공연 사전 점검 참여.</div>
+</div>
+<div class="scene-card">
+<img alt="GFC 리허설 LED" class="scene-img landscape" src="assets/image-030-f900ed1015c8.jpg"/>
+<div class="scene-caption"><strong>리허설 LED 점검</strong>공연 당일 무대 LED 시스템 점검 과정 참여.</div>
+</div>
+</div>
+<div class="scene-grid-2">
+<div class="scene-card">
+<img alt="GFC 공연 현장" class="scene-img landscape" src="assets/image-031-31a4bc3c24db.jpg"/>
+<div class="scene-caption"><strong>공연 진행 현장</strong>GREAT SUMMER FESTA 2025 본 공연 현장 운영.</div>
+</div>
+<div class="scene-card">
+<img alt="GFC 인터뷰 촬영" class="scene-img landscape" src="assets/image-032-9adf19b8cba5.jpg"/>
+<div class="scene-caption"><strong>인터뷰 촬영 현장</strong>GFC GREAT SUMMER FESTA 2025 관련 인터뷰 촬영 현장.</div>
+</div>
+</div>
+</div>
+</div></section>
+<!-- OTHER PROJECTS -->
+<section class="section" id="others">
+<div class="sec-label">06 · Other Projects</div>
+<div class="sec-title">그 외 프로젝트 (2025–2026)</div>
+<div class="sec-sub">1년간 수행한 다양한 공연·행사·전시·포럼 프로젝트입니다.</div>
+<table class="other-table">
+<thead>
+<tr>
+<th>프로젝트명</th>
+<th>발주기관</th>
+<th>기간</th>
+<th>참여 형태</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>제12회 청소년 통일문화 경연대회 운영</td><td>국립통일교육원</td><td>25.05~12</td><td class="td-main">운영 메인</td></tr>
+<tr><td>지평리 전투 국제 학술심포지엄 운영</td><td>양평군청</td><td>25.05~07</td><td class="td-sub">운영</td></tr>
+<tr><td>제16회 이데일리 전략포럼 행사대행</td><td>이데일리</td><td>25.05~06</td><td class="td-sub">운영</td></tr>
+<tr><td>동·하절기 절전 캠페인 출범식</td><td>한국에너지공단</td><td>25.07</td><td class="td-sub">당일 지원</td></tr>
+<tr><td>GFC GREAT SUMMER FESTA</td><td>삼성생명 GFC사업부</td><td>25.07~</td><td class="td-sub">운영</td></tr>
+<tr><td>인바운드 마케팅 지원 서비스 연계 설명회</td><td>한국관광공사</td><td>25.07~08</td><td class="td-sub">운영</td></tr>
+<tr><td>2025 대한민국 관광공모전(사진) 운영 및 전시</td><td>한국관광공사</td><td>25.06~12</td><td class="td-main">운영 메인</td></tr>
+<tr><td>2025년 강화 지역예술인 뮤직페스티벌</td><td>강화군청</td><td>25.11</td><td class="td-sub">운영</td></tr>
+<tr><td>2025 문화 디지털혁신 및 데이터 공모전·포럼</td><td>한국문화정보원</td><td>25.10~11</td><td class="td-sub">운영</td></tr>
+<tr><td>2026 공공건축물 그린리모델링 사업설명회·워크숍·현장견학 (키비주얼·간지·키오스크·책자·배너 등 모든 디자인 기획·제작 전담)</td><td>국토안전관리원</td><td>26.04</td><td class="td-main">디자인 전담 + 운영</td></tr>
+<tr><td>2025 아프리카주간(Africa Week)</td><td>한아프리카재단</td><td>25.12</td><td class="td-sub">운영</td></tr>
+<tr><td>서울 중장년 가치동행일자리 성과공유회</td><td>서울시50플러스재단</td><td>25.12</td><td class="td-sub">운영</td></tr>
+<tr><td>2025 JK FINANCIAL PARTNERS — 3D 홀로그램 전시 파트 운영</td><td>중겸</td><td>25.12~26.01</td><td class="td-sub">운영</td></tr>
+<tr><td>2025년 디지털윤리대전</td><td>NIA 한국지능정보원</td><td>25.12</td><td class="td-sub">운영</td></tr>
+</tbody>
+</table>
+</section>
+<!-- VISION -->
+<section class="section" id="vision">
+<div class="sec-label">08 · Vision / Career Goal</div>
+<div class="sec-title">공연기획자로서의 방향성</div>
+<div class="vision-box">
+<div class="vision-q">
+      "관객이 공연을 <span>'콘텐츠'</span>가 아닌<br/>
+<span>'경험'</span>으로 기억하게 만드는 기획자"
+    </div>
+<div class="vision-desc">
+      작은 무대에서 쌓아온 현장 경험을 기반으로, 관객이 공연의 시작부터 끝까지 몰입할 수 있는 완성도 높은 무대를 만들고 싶습니다. 기획과 실행이 일치하고, 그 중심에 '관객의 경험'이 존재하는 공연을 완성하겠습니다.
+    </div>
+<div class="vision-timeline">
+<div class="vt-item">
+<span class="vt-year">1년차</span>
+<div class="vt-text">현장 운영·기획 전 과정 체계적 습득, 몰입도 향상 기여</div>
+</div>
+<div class="vt-item">
+<span class="vt-year">2–3년차</span>
+<div class="vt-text">세부 기획 파트 담당, 콘셉트 시각화, 완성형 공연기획자</div>
+</div>
+<div class="vt-item">
+<span class="vt-year">장기 목표</span>
+<div class="vt-text">대형 공연 PM, 기획~운영 전 과정 총괄</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<div class="contact-sec">
+<div class="contact-name">Kang<br/><span>Yoon Ah</span></div>
+<div class="contact-info">
+<div class="ci-label">Contact</div>
+<div class="ci-line">
+      010.8748.9934<br/>
+<a href="mailto:dbsdk710306@naver.com">dbsdk710306@naver.com</a><br/>
+      서울시 광진구 아차산로 16-5
+    </div>
+<br/>
+<div class="ci-label">Skills</div>
+<div class="ci-line">
+      Photoshop (GTQ 1급) · Illustrator (GTQ 1급)<br/>
+      Excel · PowerPoint · 한글 · Vllo
+    </div>
+</div>
+</div>
 </main>
-
+<div aria-hidden="true" aria-label="작업 이미지 크게 보기" aria-modal="true" class="creative-lightbox" id="creativeLightbox" role="dialog">
+<button aria-label="닫기" class="creative-lightbox-close" type="button">×</button>
+<button aria-label="이전 이미지" class="creative-lightbox-nav creative-lightbox-prev" type="button">‹</button>
+<figure class="creative-lightbox-figure">
+<img alt="" class="creative-lightbox-image" src=""/>
+<figcaption class="creative-lightbox-caption">
+<span class="creative-lightbox-title"></span>
+<span class="creative-lightbox-counter"></span>
+</figcaption>
+</figure>
+<button aria-label="다음 이미지" class="creative-lightbox-nav creative-lightbox-next" type="button">›</button>
+</div>
 <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
 <script>
 const navLinks = document.querySelectorAll('.sidebar-nav a');
 const sections = [...document.querySelectorAll('section[id]')];
@@ -1614,7 +1756,94 @@ window.addEventListener('scroll', () => {
   sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) cur = s.id; });
   navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
 });
-</script>
 
+
+const lightbox = document.getElementById('creativeLightbox');
+const lightboxImage = lightbox.querySelector('.creative-lightbox-image');
+const lightboxTitle = lightbox.querySelector('.creative-lightbox-title');
+const lightboxCounter = lightbox.querySelector('.creative-lightbox-counter');
+const lightboxClose = lightbox.querySelector('.creative-lightbox-close');
+const lightboxPrev = lightbox.querySelector('.creative-lightbox-prev');
+const lightboxNext = lightbox.querySelector('.creative-lightbox-next');
+let lightboxItems = [];
+let lightboxLabels = [];
+let lightboxIndex = 0;
+let lightboxCardTitle = '';
+let lastFocusedCard = null;
+
+function renderLightbox() {
+  const src = lightboxItems[lightboxIndex];
+  const itemLabel = lightboxLabels[lightboxIndex] || '';
+  lightboxImage.src = src;
+  lightboxImage.alt = itemLabel || lightboxCardTitle;
+  lightboxTitle.textContent = itemLabel ? `${lightboxCardTitle} · ${itemLabel}` : lightboxCardTitle;
+  lightboxCounter.textContent = lightboxItems.length > 1 ? `${lightboxIndex + 1} / ${lightboxItems.length}` : '';
+  const hasMultiple = lightboxItems.length > 1;
+  lightboxPrev.hidden = !hasMultiple;
+  lightboxNext.hidden = !hasMultiple;
+}
+
+function openCreativeLightbox(card) {
+  const customGallery = card.dataset.gallery;
+  lightboxItems = customGallery
+    ? customGallery.split('||').filter(Boolean)
+    : [...card.querySelectorAll('img')].map(img => img.getAttribute('src')).filter(Boolean);
+  if (!lightboxItems.length) return;
+
+  lightboxLabels = card.dataset.galleryLabel
+    ? card.dataset.galleryLabel.split('||')
+    : [...card.querySelectorAll('img')].map(img => img.getAttribute('alt') || '');
+  lightboxIndex = 0;
+  lightboxCardTitle = (card.querySelector('.creative-title')?.innerText || card.querySelector('img')?.alt || '작업 이미지').replace(/\n+/g, ' ');
+  lastFocusedCard = card;
+  renderLightbox();
+  lightbox.classList.add('is-open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+}
+
+function closeCreativeLightbox() {
+  lightbox.classList.remove('is-open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImage.src = '';
+  document.body.style.overflow = '';
+  lastFocusedCard?.focus();
+}
+
+function moveCreativeLightbox(direction) {
+  if (lightboxItems.length < 2) return;
+  lightboxIndex = (lightboxIndex + direction + lightboxItems.length) % lightboxItems.length;
+  renderLightbox();
+}
+
+document.querySelectorAll('#creative .creative-card').forEach(card => {
+  if (!card.querySelector('img')) return;
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-label', `${(card.querySelector('.creative-title')?.innerText || '작업 이미지').replace(/\n+/g, ' ')} 크게 보기`);
+  card.addEventListener('click', () => openCreativeLightbox(card));
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openCreativeLightbox(card);
+    }
+  });
+});
+
+lightboxClose.addEventListener('click', closeCreativeLightbox);
+lightboxPrev.addEventListener('click', () => moveCreativeLightbox(-1));
+lightboxNext.addEventListener('click', () => moveCreativeLightbox(1));
+lightbox.addEventListener('click', event => {
+  if (event.target === lightbox) closeCreativeLightbox();
+});
+document.addEventListener('keydown', event => {
+  if (!lightbox.classList.contains('is-open')) return;
+  if (event.key === 'Escape') closeCreativeLightbox();
+  if (event.key === 'ArrowLeft') moveCreativeLightbox(-1);
+  if (event.key === 'ArrowRight') moveCreativeLightbox(1);
+});
+
+</script>
 </body>
 </html>
